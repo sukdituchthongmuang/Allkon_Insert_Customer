@@ -45,7 +45,7 @@ except (Exception, psycopg2.DatabaseError) as error:
 # อ่านข้อมูลจากไฟล์ Excel
 try:
     # อ่านข้อมูลโดยระบุ dtype ของ Tax branch เป็น str
-    df = pd.read_excel(file_path, dtype={'Tax branch': str})
+    df = pd.read_excel(file_path, dtype={'Tax branch': str, 'Tax exempt number': str})
     print("การนำเข้าไฟล์ Excel เสร็จสิ้น")
     
 except Exception as e:
