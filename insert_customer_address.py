@@ -49,6 +49,9 @@ try:
     # แทนค่าว่างใน DataFrame เป็น ''
     df.replace(np.nan, '', inplace=True)
     
+        # กำจัดข้อมูลซ้ำโดยเก็บแถวสุดท้ายที่เจอ
+    df.drop_duplicates(subset=['Customer account'], keep='last', inplace=True)
+    
     # สร้าง DataFrame ใหม่สำหรับแถวที่ถูกต้อง
     new_rows = []
     
