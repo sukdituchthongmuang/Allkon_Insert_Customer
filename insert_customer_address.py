@@ -42,14 +42,14 @@ except (Exception, psycopg2.DatabaseError) as error:
 try:
     # อ่านข้อมูลจากไฟล์ Excel
     df = pd.read_excel(file_path, dtype={'State': str, 'County': str, 'ZIP/postal code': str, 'City': str})
-    print("การนำเข้าไฟล์ Excel เสร็จสิ้น")
+    print("การนำเข้าไฟล์ Excel เสร็จสิ้น") 
     print("ก่อนการแก้ไข:")
     print(df)
     
     # แทนค่าว่างใน DataFrame เป็น ''
     df.replace(np.nan, '', inplace=True)
     
-        # กำจัดข้อมูลซ้ำโดยเก็บแถวสุดท้ายที่เจอ
+    # กำจัดข้อมูลซ้ำโดยเก็บแถวสุดท้ายที่เจอ
     df.drop_duplicates(subset=['Customer account'], keep='last', inplace=True)
     
     # สร้าง DataFrame ใหม่สำหรับแถวที่ถูกต้อง
@@ -71,9 +71,9 @@ try:
     else:
         df_new = df
     
-    # ตรวจสอบการแมพข้อมูลและลบแถวที่มี 'Business' ออกหาก cus_no มีใน customer_dict
+    # ตรวจสอบการแมพข้อมูลและลบแถวที่มี 'Business' หรือ 'Lading' ออกหาก cus_no มีใน customer_dict
     df_new['to_remove'] = df_new.apply(
-        lambda row: row['Address location roles'] == 'Business' and row['Customer account'] in customer_dict, axis=1)
+        lambda row: (row['Address location roles'] == 'Business' and row['Customer account'] in customer_dict) or (row['Address location roles'] == 'Lading'), axis=1)
     
     df_final = df_new[df_new['to_remove'] == False].drop(columns=['to_remove'])
     
